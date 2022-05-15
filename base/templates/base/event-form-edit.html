@@ -5,10 +5,22 @@
 <form id="event-update-form" method="POST">
     {% csrf_token %}
     <div class="form-fields">
-        {{ form.title }}
-        {{ form.location }}
-        {{ form.date }}
-        {{ form.start_time }}
+        <div class="form-field-wrapper">
+            <span class="required-field-indicator">*</span>
+            {{ form.title }}
+        </div>
+        <div class="form-field-wrapper">
+            <span class="required-field-indicator">*</span>
+            {{ form.location }}
+        </div>
+        <div class="form-field-wrapper">
+            <span class="required-field-indicator">*</span>
+            {{ form.date }}
+        </div>
+        <div class="form-field-wrapper">
+            <span class="required-field-indicator">*</span>
+            {{ form.start_time }}
+        </div>
         {{ form.end_time }}
         {{ form.cost }}
         {{ form.description }}

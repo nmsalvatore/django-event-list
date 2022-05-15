@@ -7,7 +7,7 @@
 * {
     padding: 0;
     margin: 0;
-    box-sizing: 0;
+    box-sizing: border-box;
 }
 
 html {
@@ -43,7 +43,7 @@ form textarea {
     border-radius: 3px;
     color: var(--lt-gray);
     padding: 0.75rem;
-    margin: 0.25rem;
+    margin: 0.25rem 0;
 }
 
 form input::placeholder,
@@ -61,6 +61,24 @@ input[type=time]::-webkit-calendar-picker-indicator {
 form #id_date,
 form #id_description {
     font-family: inherit;
+}
+
+form #id_description {
+    resize: none;
+}
+
+form .form-field-wrapper {
+    position: relative;
+}
+
+form .form-field-wrapper input {
+    width: 100%;
+}
+
+form .required-field-indicator {
+    position: absolute;
+    left: -0.75rem;
+    top: 1.25rem;
 }
 
 form .btn-container input[type=submit] {
