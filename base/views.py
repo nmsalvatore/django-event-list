@@ -24,7 +24,7 @@ def addEvent(request):
         return redirect('home')
 
     context = {'form': form}
-    return render(request, 'base/event-form.html', context)
+    return render(request, 'base/event-form-add.html', context)
 
 def updateEvent(request, pk):
     event = Event.objects.get(id=pk)
@@ -39,10 +39,15 @@ def updateEvent(request, pk):
         'form': form,
         'event': event
     }
-    return render(request, 'base/event-update.html', context)
+    return render(request, 'base/event-form-edit.html', context)
 
 def deleteEvent(request, pk):
     event = Event.objects.get(id=pk)
+
+    if request.method == 'POST':
+        event.delete()
+        return redirect('home')
+        
     context = {'event': event}
     return render(request, 'base/event-delete.html', context)
 

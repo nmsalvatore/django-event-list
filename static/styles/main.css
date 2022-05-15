@@ -94,10 +94,6 @@ form .btn-container input[type=submit] {
         text-decoration: none;
     }
 
-.event-title {
-    font-style: italic;
-}
-
 .form-fields {
     display: flex;
     flex-direction: column;
@@ -126,6 +122,7 @@ form .btn-container input[type=submit] {
 .event-details-wrapper {
     display: flex;
     flex-direction: column;
+    padding: 1rem;
 }
 
     .event-details-wrapper h1 {
@@ -141,6 +138,20 @@ form .btn-container input[type=submit] {
         padding-top: 1rem;
     }
 
+
+
+.btn-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 0;
+}
+
+/* components */
+
+input[type='submit'] {
+    cursor: pointer;
+}
+
 .btn {
     background: none;
     border: 1px solid var(--lt-gray);
@@ -150,15 +161,9 @@ form .btn-container input[type=submit] {
     text-decoration: none;
 }
 
-.btn.delete {
-    font-size: 12px;
-    font-family: 'Helvetica Neue', Helvetica, sans-serif;
-    background: red;
-    border: 1px solid red;
-}
-
-.btn-container {
-    display: flex;
-    justify-content: space-between;
-    padding: 1rem 0;
-}
+    .btn.delete {
+        font-size: 12px;
+        font-family: 'Helvetica Neue', Helvetica, sans-serif;
+        background: red;
+        border: 1px solid red;
+    }

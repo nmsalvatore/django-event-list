@@ -12,7 +12,7 @@
     <p>Ends @ {{ event.end_time }}</p?>
     {% endif %}
     <p>{{ event.cost }}</p>
-    <p>{{ event.description }}</p>
+    <p>{{ event.description | linebreaks }}</p>
     <div class="btn-container">
         <a href="{% url 'home' %}">Back</a>
         <a class="btn" href="{% url 'update-event' event.id %}">Edit</a>
