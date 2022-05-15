@@ -1,5 +1,5 @@
 :root {
-    --dk-blue: #222;
+    --black: #222;
     --lt-gray: #ddd;
     --gray: #aaa;
 }
@@ -10,9 +10,26 @@
     box-sizing: 0;
 }
 
+html {
+    height: -webkit-fill-available;
+}
+
+body {
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+}
+
 h1, h2, h3, h4, h5, h6, a, span, p {
+    font-family: inherit;
     font-weight: inherit;
     font-size: inherit;
+}
+
+#id_start_time,
+#id_end_time,
+#id_date {
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
 }
 
 form a, a {
@@ -31,12 +48,12 @@ form textarea {
 
 form input::placeholder,
 form textarea::placeholder,
-form input[type="datetime-local"],
-form input[type="time"] {
+form input[type="date"]::placeholder,
+form input[type="time"]::placeholder {
     color: var(--gray);
 }
 
-input[type=datetime-local]::-webkit-calendar-picker-indicator,
+input[type=date]::-webkit-calendar-picker-indicator,
 input[type=time]::-webkit-calendar-picker-indicator {
     filter: invert(90%);
 }
@@ -49,23 +66,13 @@ form #id_description {
 form .btn-container input[type=submit] {
     background: var(--lt-gray);
     border: none;
-    color: var(--dk-blue);
-}
-
-html {
-    height: -webkit-fill-available;
-}
-
-body {
-    font-family: 'Helvetica Neue', Helvetica, sans-serif;
-    min-height: 100vh;
-    min-height: -webkit-fill-available;
+    color: var(--black);
 }
 
 .container {
     display: flex;
     flex-direction: column;
-    background: var(--dk-blue);
+    background: var(--black);
     color: var(--lt-gray);
 }
 

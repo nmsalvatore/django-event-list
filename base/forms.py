@@ -11,6 +11,7 @@ class EventForm(ModelForm):
             'title' : forms.TextInput(attrs={'placeholder': 'Event Name'}),
             'location' : forms.TextInput(attrs={'placeholder': 'Location'}),
             'date': DatePicker(),
+            'start_time': TimePicker(),
             'end_time': TimePicker(),
             'description' : Textarea(attrs={'placeholder': 'Description'}),
             'cost' : forms.TextInput(attrs={'placeholder': 'Price'}),

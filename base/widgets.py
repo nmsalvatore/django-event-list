@@ -1,7 +1,7 @@
 from django import forms
 
-class DatePicker(forms.DateTimeInput):
-    input_type = 'datetime-local'
+class DatePicker(forms.DateInput):
+    input_type = 'date'
 
 class TimePicker(forms.TimeInput):
     input_type = 'time'

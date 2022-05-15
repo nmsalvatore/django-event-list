@@ -6,6 +6,12 @@
     <h1>{{ event.title }}</h1>
     <p>{{ event.location }}</p>
     <p>{{ event.date }}</p>
+    <p>Starts @ {{ event.start_time }}</p>
+
+    {% if event.end_time %}
+    <p>Ends @ {{ event.end_time }}</p?>
+    {% endif %}
+    <p>{{ event.cost }}</p>
     <p>{{ event.description }}</p>
     <div class="btn-container">
         <a href="{% url 'home' %}">Back</a>
