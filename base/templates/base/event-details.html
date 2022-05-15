@@ -1,0 +1,16 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div class="event-details-wrapper">
+    <h1>{{ event.title }}</h1>
+    <p>{{ event.location }}</p>
+    <p>{{ event.date }}</p>
+    <p>{{ event.description }}</p>
+    <div class="btn-container">
+        <a href="{% url 'home' %}">Back</a>
+        <a class="btn" href="{% url 'update-event' event.id %}">Edit</a>
+    </div>
+</div>
+
+{% endblock content %}

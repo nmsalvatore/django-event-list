@@ -1,0 +1,26 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div>
+    {% for event_date in event_dates %}
+        {% if today <= event_date %}
+            <h2 class="date-header">{{ event_date | date:'D, M d, Y'}} </h2>
+
+            {% for e in events %}
+                {% if event_date == e.date.date %}
+                    <div class="pad-1 event-wrapper">
+                        <a href="{% url 'event-details' e.id %}">
+                            <h3 class="event-title">{{ e.title }}</h3>
+                        </a>
+                        <p class="event-location">, {{ e.location }} @ {{ e.date.time }}</p>
+                    </div>
+
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+
+</div>
+
+{% endblock content %}

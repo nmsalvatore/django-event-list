@@ -1,0 +1,24 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<form id="event-update-form" method="POST">
+    {% csrf_token %}
+    <div class="form-fields">
+        {{ form.title }}
+        {{ form.location }}
+        {{ form.date }}
+        {{ form.end_time }}
+        {{ form.cost }}
+        {{ form.description }}
+    </div>
+    <div class="btn-container">
+        <a href="{% url 'event-details' event.id %}">Back</a>
+        <div>
+            <a class="btn delete" href="{% url 'delete-event' event.id %}">Delete</a>
+            <input type="submit" value="Update">
+        </div>
+    </div>
+</form>
+
+{% endblock content %}

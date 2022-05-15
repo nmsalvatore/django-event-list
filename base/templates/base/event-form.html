@@ -1,0 +1,21 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<form method="POST">
+    {% csrf_token %}
+    <div class="form-fields">
+        {{ form.title }}
+        {{ form.location }}
+        {{ form.date }}
+        {{ form.end_time }}
+        {{ form.cost }}
+        {{ form.description }}
+
+    </div>
+    <div class="btn-container">
+        <input type="submit" value="Add Event">
+    </div>
+</form>
+
+{% endblock content %}
