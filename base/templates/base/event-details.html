@@ -15,7 +15,10 @@
     <p>{{ event.description | linebreaks }}</p>
     <div class="btn-container">
         <a href="{% url 'home' %}">Back</a>
-        <a class="btn" href="{% url 'update-event' event.id %}">Edit</a>
+        <div>
+            <a class="btn" href="{% url 'duplicate-event' event.id %}">Duplicate</a>
+            <a class="btn" href="{% url 'update-event' event.id %}">Edit</a>
+        </div>
     </div>
 </div>
 

@@ -15,3 +15,15 @@ class Event(models.Model):
 
     def __str__(self):
         return self.title
+
+class ScraperEvent(models.Model):
+    title = models.CharField(max_length=255)
+    location = models.CharField(max_length=255)
+    date = models.DateField(null=True)
+    start_time = models.TimeField()
+    end_time = models.TimeField(null=True, blank=True)
+    cost = models.CharField(max_length=20, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.title
