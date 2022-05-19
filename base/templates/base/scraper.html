@@ -1,0 +1,16 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div class="scraper-container">
+    <form action="" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Download Event Data">
+    </form>
+    
+    {% if events_added >= 0 %}
+        <p>{{ events_added }} events added.</p>
+    {% endif %}
+</div>
+
+{% endblock %}
