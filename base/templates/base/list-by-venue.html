@@ -1,0 +1,24 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+    <div>
+        {% for venue in venues %}
+        <h2 class="date-header">{{ venue }}</h2>
+            {% for e in events %}
+                {% if e.location == venue %}
+                    {% if today <= e.date %}
+                        <div class="pad-1 event-wrapper">
+                            <p class="event-location">{{ e.date }}&nbsp;-&nbsp;</p>
+                            <a href="{% url 'event-details' e.id %}">
+                                <h3 class="event-title">{{ e.title | truncatechars:50 }}</h3>
+                            </a>
+                            <span>&nbsp;@ {{e.start_time}}</span>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </div>
+
+{% endblock content %}
