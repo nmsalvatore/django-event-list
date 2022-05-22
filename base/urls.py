@@ -8,5 +8,7 @@ urlpatterns = [
     path('update-event/<int:pk>/', views.updateEvent, name="update-event"),
     path('delete-event/<int:pk>/', views.deleteEvent, name="delete-event"),
     path('duplicate-event/<int:pk>/', views.duplicateEvent, name="duplicate-event"),
-    path('scraper/', views.downloadScraperData, name="scraper")
+    path('scraper/', views.downloadScraperData, name="scraper"),
+    path('by-venue/', views.listByVenue, name="by-venue"),
+    path('by-date/', views.listByDate, name="by-date")
 ]

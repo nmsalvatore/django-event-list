@@ -2,24 +2,41 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import date, datetime, time
 from urllib.request import Request, urlopen
-# from .utils import convert_time
 
 def convert_time(time_str):
-    time_str = time_str.split(' ')
-    hour = int(time_str[0].split(':')[0])
+    hour = int(time_str.split(':')[0])
+    minute = ''
+    period_options = ['am', 'pm', 'p.m.', 'a.m.', 'AM', 'PM', 'P.M.', 'A.M.']
 
-    if time_str[-1] == 'pm' or hour == 12 and time_str[-1] == 'am':
+    if time_str.endswith('pm') or hour == 12 and time_str.endswith('am'):
         hour = hour + 12
 
     if hour == 24:
         hour = 0
 
-    minute = int(time_str[0].split(':')[1])
+    if len(time_str.split(':')) == 2:
+        minute = time_str.split(':')[-1]
+
+        for period in period_options:
+            minute = minute.replace(period, '')
+
+        minute = int(minute)
+
     return time(hour=hour, minute=minute).isoformat(timespec='minutes')
 
 def convert_date(date_str):
+    def date1():
+        try: return datetime.strptime(date_str, '%A, %B %d').date()
+        except: pass
+        else: return True
+
+    def date2():
+        try: return datetime.strptime(date_str, '%A, %B %d, %Y').date()
+        except: pass
+        else: return True
+
+    new_date = date1() or date2()
     current_date = datetime.now().date()
-    new_date = datetime.strptime(date_str, '%A, %B %d').date()
 
     if new_date.month >= current_date.month:
         new_date = new_date.replace(year=current_date.year)
@@ -70,16 +87,25 @@ def get_center_for_the_arts_data():
     soup = BeautifulSoup(site_content, 'html.parser')
     events = soup.find_all('div', 'event-cnt')
     data = []
+    skipped = []
 
     for event in events:
-        date_str = event.find(class_='d').get_text().strip()
-        event_details = {}
-        event_details['title'] = event.h2.get_text()
-        event_details['location'] = 'The Center For The Arts'
-        event_details['date'] = datetime.strptime(date_str, '%b %d, %Y')
-        event_details['start_time'] = event.find(class_='t').get_text().split(',')[0]
-        event_details['description'] = 'For more information, please visit: ' + event.h2.a.get('href')
-        print(event_details)
+        try:
+            date_str = event.find(class_='d').get_text().strip()
+            time_str = event.find(class_='t').get_text().split(',')[0]
+            event_details = {
+                'title': event.h2.get_text(),
+                'location': 'The Center For The Arts',
+                'date': convert_date(date_str),
+                'start_time': convert_time(time_str),
+                'description': 'For more information, please visit: ' + event.h2.a.get('href')
+            }
+            
+            data.append(event_details)
+        except:
+            skipped.append(event.h2.a.get('href'))
+
+    return {'events': data, 'skipped': skipped}
     
 def get_crazy_horse_urls():
     r = requests.get('http://crazyhorsenc.com/about/live-music/')
@@ -113,7 +139,6 @@ def get_crazy_horse_data():
             'end_time': convert_time(end_time),
             'cost': cost
         }
-
         data.append(event_details)
 
     return data
@@ -121,5 +146,8 @@ def get_crazy_horse_data():
 def get_all_scraper_events():
     mf_events = get_miners_foundry_data()
     ch_events = get_crazy_horse_data()
+    ncca_events = get_center_for_the_arts_data()['events']
+    all_events = mf_events + ch_events + ncca_events
+    skipped = get_center_for_the_arts_data()['skipped']
 
-    return mf_events + ch_events
+    return {'events': all_events, 'skipped': skipped}

@@ -7,10 +7,27 @@
         {% csrf_token %}
         <input type="submit" value="Download Event Data">
     </form>
+    <div>
+        {% if events_count > 0 %}
+            <h3>The following {{ events_count }} events have been successfully downloaded:</h3>
+            <ul>
+            {% for e in events_added %}
+                <li>{{ e.date }} - {{ e.title }} @ {{ e.location }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% if events_skipped %}
+            <h3>The following events were not able to be downloaded:</h3>
+            <ul class="skipped-list">
+            {% for url in events_skipped %}
+                <li><a href="{{ url }}">{{ url }}</a></li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
     
-    {% if events_added >= 0 %}
-        <p>{{ events_added }} events added.</p>
-    {% endif %}
+    
 </div>
 
 {% endblock %}

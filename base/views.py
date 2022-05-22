@@ -6,15 +6,18 @@ from .scraper import get_all_scraper_events
 
 # Create your views here.
 def home(request):
+    return redirect('by-date')
+
+def listByDate(request):
     today = datetime.now().date()
-    events = Event.objects.all()
+    events = Event.objects.all().order_by('date', 'start_time')
     event_dates = Event.objects.dates('date', 'day')
     context = {
         'today': today,
         'events': events,
         'event_dates': event_dates
     }
-    return render(request, 'base/home.html', context)
+    return render(request, 'base/list-by-date.html', context)
 
 def addEvent(request):
     form = EventForm()
@@ -77,11 +80,15 @@ def downloadScraperData(request):
     context = {}
     
     if request.method == 'POST':
-        events = get_all_scraper_events()
-        count = 0
+        event_data = get_all_scraper_events()
+        events = event_data['events']
+        skipped = event_data['skipped']
+        added = []
 
+        count = 0
+        
         for event in events:
-            duplicate = ScraperEvent.objects.filter(
+            duplicate = Event.objects.filter(
                 title=event['title'], 
                 date=event['date'],
                 start_time=event['start_time']
@@ -89,18 +96,49 @@ def downloadScraperData(request):
             
             if duplicate:
                 continue
+
+            try: end_time = event['end_time']
+            except: end_time = None
+
+            try: cost = event['cost']
+            except: cost = None
+
+            try: description = event['description']
+            except: description = None
             
-            new_event = ScraperEvent.objects.create(
+            new_event = Event.objects.create(
                 title=event['title'],
                 location=event['location'],
                 date=event['date'],
                 start_time=event['start_time'],
-                end_time=event['end_time'],
-                cost=event['cost']
+                end_time=end_time,
+                cost=cost,
+                description=description
             )
 
             count = count + 1
+            added.append(event)
         
-        context['events_added'] = count
+        added = sorted(added, key=lambda x:x['date'])
+        context = {
+            'events_added': added,
+            'events_count': count,
+            'events_skipped': skipped,
+        }
 
     return render(request, 'base/scraper.html', context)
+
+def listByVenue(request):
+    today = datetime.now().date()
+    events = Event.objects.all().order_by('date', 'start_time')
+    venues = Event.objects.values_list('location', flat=True)
+    venues = set(venues)
+    venues = sorted(venues)
+
+    context = {
+        'venues': venues,
+        'events': events,
+        'today': today
+    }
+
+    return render(request, 'base/list-by-venue.html', context)
